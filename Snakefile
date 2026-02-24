@@ -13,12 +13,12 @@ rule all:
     input: 
         "Berge_PipelineReport.txt"
 
-rule download_patient_data: #download seperately !!!! ????
+rule download_patient_data: #downloads SSR files
     output:
         r1 = DATA_DIR + "/{sample}_1.fastq",
         r2 = DATA_DIR + "/{sample}_2.fastq"
     shell:
-        # This only runs if the files aren't already in test_data/
+        # This only runs if the files aren't already in test_data/ or data/
         "fasterq-dump --split-files {wildcards.sample} -O " + DATA_DIR
 
 rule download_hcmv_genbank: #downloads the refrence genome 
