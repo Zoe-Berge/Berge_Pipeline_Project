@@ -56,12 +56,13 @@ rule kallisto_quant:
     input:
         idx = "results/hcmv_index.idx",
         r1 = DATA_DIR + "/{sample}_1.fastq", 
-        r2 = DATA_DIR + "/{sample}_2.fastq"
+        r2 = DATA_DIR + "/{sample}_2.fastq" #r1 and r2 are my paired end fastq files 
     output:
-        "results/{sample}/abundance.tsv",
-        "results/{sample}/abundance.h5" 
+        "results/{sample}/abundance.tsv", #has estimated counts and TPM for every gene.
+        "results/{sample}/abundance.h5"  #stores the bootstrab data to be used by sleuth 
     shell:
         "kallisto quant -i {input.idx} -o results/{wildcards.sample} -b 10 {input.r1} {input.r2}"
+        #-b 1 re-runs the estimation for the paired end fastqs 10 times for better accuracy 
 
 #runs the R script for Sleuth
 rule run_sleuth:
@@ -122,6 +123,7 @@ rule download_subfamily: #downloads the betaherpesvirinae data for a local datab
     output:
         "data/betaherpesvirinae.fasta"
     shell:
+        #searches and gets all the results from the search 
         "esearch -db nucleotide -query 'Betaherpesvirinae[Organism]' | efetch -format fasta > {output}"
 
 rule make_blast_db: #this makes the local database 
@@ -130,6 +132,7 @@ rule make_blast_db: #this makes the local database
     output:
         "results/hcmv_db.nsq" 
     shell:
+        #makes the database with the nucleotide results 
         "makeblastdb -in {input} -dbtype nucl -out results/hcmv_db"
 
 #run the blast script
@@ -145,8 +148,10 @@ rule run_blast_analysis:
 
 rule build_final_report:
     input:
+        #assigns all of the gathered information
         cds = "results/cds_statement.txt",
         sleuth = "results/significant_transcripts.temp",
+        #expand inputs each of the sample numbers
         counts = expand("results/{sample}_counts.txt", sample=SAMPLES),
         blast = expand("results/{sample}_blast_results.txt", sample=SAMPLES)
     output:
