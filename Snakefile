@@ -4,10 +4,10 @@ executable = sys.executable
 
 #list of sample SSR number to be looked at 
 SAMPLES = ["SRR5660030", "SRR5660033", "SRR5660044", "SRR5660045"]
-#SAMPLES = ["SRR5660030"]
-#Above is a test data option 
+
 DATA_DIR = "data"
-#defined seperately so it can be redirected to test_data
+#DATA_DIR = "test_data"
+#above is a test_data option, comment out DATA_DIR = "data" and un comment DATA_DIR = "test_data" for this option   
 
 rule all:
     input: 
