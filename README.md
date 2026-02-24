@@ -35,8 +35,11 @@ Includes downloading the following: SRR5660030, SRR5660033, SRR5660044, SRR56600
 If you choose to download manually, use the following commands, and Snakemake will skip over the downloading step:
 
 fasterq-dump --split-files SRR5660030
+
 fasterq-dump --split-files SRR5660033
+
 fasterq-dump --split-files SRR5660044
+
 fasterq-dump --split-files SRR5660045
 
 # Overview:
