@@ -1,0 +1,15 @@
+# Ignore the large data folders
+SRR5660030/
+SRR5660033/
+SRR5660044/
+SRR5660045/
+
+# Ignore other heavy directories
+results/
+data/
+.snakemake/
+
+# Ignore specific large file types
+*.fastq
+*.h5
+*.idx
